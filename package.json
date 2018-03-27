@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha ./tests"
+    "start": "node app.js"
   },
   "dependencies": {
     "aws-sdk": "^2.206.0",
