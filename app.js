@@ -32,11 +32,11 @@ var db = mongoose.connection;
 User =require('./models/user');
 Files =require('./models/file');
 
-app.set( 'port', ( process.env.PORT || 5000 ));
+app.set( 'port', ( process.env.PORT || 3000 ));
 
 app.get('/', function(req, res) {
-//res.send('hello world');
-res.sendFile('src/login/index.html', {root: __dirname })
+res.send('hello world');
+//res.sendFile('src/login/index.html', {root: __dirname })
 });
 
 
