@@ -126,7 +126,7 @@ app.post('/editaccount', (req, res) => {
     var user = items[0];
     console.log(user);
     console.log(user.password);
-    user.password = cryptr.(req.body.password);
+    user.password = cryptr.encrypt(req.body.password);
     //user.password = bcrypt.hashSync(req.body.password, req.body.password.length);
     console.log(user.password);
     collection.updateOne({email: req.body.email}, {$set:{password: user.password}});
