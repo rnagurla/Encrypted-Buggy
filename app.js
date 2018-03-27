@@ -32,7 +32,7 @@ var db = mongoose.connection;
 User =require('./models/user');
 Files =require('./models/file');
 
-app.set( 'port', ( process.env.PORT || 3000 ));
+app.set( 'port', ( process.env.PORT || 5000 ));
 
 app.get('/', function(req, res) {
 res.send('hello world');
