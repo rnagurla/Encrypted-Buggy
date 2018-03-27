@@ -78,7 +78,8 @@ app.post('/createaccount', (req, res) => {
 
   var collection = db.collection('users');
   var _email = req.body.email;
-
+  var Cryptr = require('cryptr'),
+  cryptr = new Cryptr('myTotalySecretKey');
   collection.find({email: req.body.email}).toArray(function (err, items) {
 
    var user = items[0];
@@ -90,7 +91,8 @@ app.post('/createaccount', (req, res) => {
    if (user) {
      console.log('User already exists');
      var t = user.password;
-     user.password = bcrypt.hashSync(t, t.length);
+     user.password = cryptr.encrypt(t);
+     //user.password = bcrypt.hashSync(t, t.length);
      collection.updateOne({email: req.body.email}, {$set:{password: user.password}});
      //return res.status(401).json({message: "User already exists"});
 	return res.status(200).json({message: "User already exists, password updated"});
@@ -98,7 +100,8 @@ app.post('/createaccount', (req, res) => {
 
    else  {
       var user = req.body;
-      user.password = bcrypt.hashSync(req.body.password, req.body.password.length);
+      user.password = cryptr.encrypt(user.password);
+      //user.password = bcrypt.hashSync(req.body.password, req.body.password.length);
 
       console.log(user);
 
@@ -117,12 +120,14 @@ app.post('/createaccount', (req, res) => {
 app.post('/editaccount', (req, res) => {
 
   var collection = db.collection('users');
-
+  var Cryptr = require('cryptr'),
+  cryptr = new Cryptr('myTotalySecretKey');
     collection.find({email: req.body.email}).toArray(function (err, items) {
     var user = items[0];
     console.log(user);
     console.log(user.password);
-    user.password = bcrypt.hashSync(req.body.password, req.body.password.length);
+    user.password = cryptr.(req.body.password);
+    //user.password = bcrypt.hashSync(req.body.password, req.body.password.length);
     console.log(user.password);
     collection.updateOne({email: req.body.email}, {$set:{password: user.password}});
 
@@ -155,6 +160,8 @@ app.delete('/api/users/:_email', (req, res) => {
 
 app.post('/login/', function(req, res){
   //console.log(req.body.email);
+  var Cryptr = require('cryptr'),
+  cryptr = new Cryptr('myTotalySecretKey');
 
   var collection = db.collection('users');
   var _email = req.body.email;
@@ -170,12 +177,13 @@ app.post('/login/', function(req, res){
          return res.status(401).json({message: "User does not exit"});
        }
 
-      else if(bcrypt.compareSync(req.body.password, user.password)) {
+      //else if(bcrypt.compareSync(req.body.password, user.password)) {
+      else if(cryptr.decrypt(user.password) == req.body.password){
         console.log('Passwords match');
         return res.status(200).json({message: "Success"});
 
       }
-      else if (!bcrypt.compareSync(req.body.password, user.password)){
+      else if (!(cryptr.decrypt(user.password) == req.body.password)){
       //
          console.log('Wrong password');
          return res.status(200).json({message: "Success"});
