@@ -10,6 +10,7 @@
     "aws-sdk": "^2.206.0",
     "body-parser": "*",
     "cryptr": "^3.0.0",
+    "ejs": "^2.5.8",
     "express": "*",
     "file-encryptor": "^0.1.1",
     "mongoose": "*",

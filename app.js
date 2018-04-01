@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var randomstring = require("randomstring");
 var http = require("http");
 
+
 //<<<<<<< HEAD
 //var passport = require('passport');
 //var passport = require('./config/passport.js');
@@ -36,7 +37,7 @@ app.set( 'port', ( process.env.PORT || 3000 ));
 
 app.get('/', function(req, res) {
 res.send('hello world');
-//res.sendFile('src/login/index.html', {root: __dirname })
+//res.render('index.html')
 });
 
 
