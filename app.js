@@ -32,7 +32,7 @@ var db = mongoose.connection;
 User =require('./models/user');
 Files =require('./models/file');
 
-app.set( 'port', ( process.env.PORT || 5000 ));
+app.set( 'port', ( process.env.PORT || 3000 ));
 
 app.get('/', function(req, res) {
 res.send('hello world');
@@ -171,7 +171,14 @@ app.post('/login/', function(req, res){
    collection.find({email: req.body.email}).toArray(function (err, items) {
 
        var user = items[0];
-
+       var pass1 = "testing";
+       console.log(pass1);
+       var pass2 = cryptr.encrypt(pass1);
+       console.log(pass2);
+       var pass3 = cryptr.decrypt(pass2);
+       console.log(pass3);
+       console.log(user.password);
+       console.log("here");
        if(!user){
          console.log('No user');
          return res.status(401).json({message: "User does not exit"});
